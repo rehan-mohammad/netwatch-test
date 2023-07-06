@@ -16,3 +16,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+Route::middleware('auth')->group(static function () {
+
+    Route::get('users', 'UserController@index')->name('users.index');
+    Route::get('search', 'SearchController@index')->name('search.index');
+    Route::post('search/query', 'SearchController@query')->name('search.query');
+});
+
+require __DIR__.'/auth.php';
